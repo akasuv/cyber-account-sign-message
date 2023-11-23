@@ -126,12 +126,12 @@ export default function Home() {
               ) : isValidSignature === undefined ? null : isValidSignature ===
                 "0x1626ba7e" ? (
                 <p>
-                  Is valid singature:
+                  Is valid signature:
                   <span className="ml-2 text-green-500">True</span>
                 </p>
               ) : (
                 <p>
-                  Is valid singature:
+                  Is valid signature:
                   <span className="ml-2 text-red-500">False</span>
                 </p>
               )}
