@@ -29,6 +29,8 @@ export default function Home() {
   });
   const [inputValue, setInputValue] = useState("");
   const [confirmedValue, setConfirmedValue] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageForVerification, setMessageForVerification] = useState("");
 
   const {
     data: signature,
@@ -37,7 +39,7 @@ export default function Home() {
     isSuccess,
     signMessage,
   } = useSignMessage({
-    message: "Hello world",
+    message,
   });
 
   const {
@@ -49,10 +51,8 @@ export default function Home() {
     address: address,
     abi: ERC1271ABI,
     functionName: "isValidSignature",
-    args: [hashMessage("Hello world"), confirmedValue],
-    enabled: false,
-    structuralSharing: false,
-    staleTime: 0,
+    args: [hashMessage(messageForVerification), inputValue],
+    enabled: !!(messageForVerification && inputValue),
     onError: (err) => {
       alert(err);
     },
@@ -67,67 +67,77 @@ export default function Home() {
   return mounted ? (
     <main className="flex min-h-screen flex-col items-center border pt-16">
       <h1 className="text-xl font-bold">CyberAccount Sign Message Demo</h1>
-      <div className="mt-8 p-8 flex flex-col gap-y-2 border rounded w-[500px]">
-        <div className="w-full"></div>
-        <Label className="font-bold mt-4">CyberAccount address</Label>
-        <p>{address}</p>
-        <Label className="font-bold mt-4">Message</Label>
-        <p>Hello world</p>
-        <Label htmlFor="signature" className="font-bold mt-4">
-          Signature
-        </Label>
-        {signature ? (
-          <p className="break-words">{signature}</p>
-        ) : (
-          <p>Please sign the message first</p>
-        )}
-        <Label htmlFor="signature" className="font-bold mt-4">
-          Validate Signature
-        </Label>
-        <Input
-          placeholder="Copy the signature above"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        {
-          <p>
-            {isValidSignature === undefined ? null : isValidSignature ===
-              "0x1626ba7e" ? (
-              <span className="text-green-500">True</span>
-            ) : (
-              <span className="text-red-500">False</span>
-            )}
-          </p>
-        }
-        {isConnected ? (
-          <div className="flex gap-x-4 w-full mt-4">
-            <Button
-              className="grow"
-              onClick={() => signMessage()}
-              disabled={isSigning}
-            >
-              {isSigning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Sign
+      <div className="flex gap-x-4">
+        <div className="mt-8 p-8 flex flex-col gap-y-2 border rounded w-[500px]">
+          <h2 className="text-lg font-bold">Sign Message</h2>
+          <Label className="font-bold mt-4">CyberAccount address</Label>
+          <p>{address}</p>
+          <Label className="font-bold mt-4">Message</Label>
+          <Input
+            placeholder="Enter message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <Label htmlFor="signature" className="font-bold mt-4">
+            Signature
+          </Label>
+          {signature ? (
+            <p className="break-words">{signature}</p>
+          ) : (
+            <p>Please sign the message first</p>
+          )}
+          {isConnected ? (
+            <div className="flex gap-x-4 w-full mt-4">
+              <Button
+                className="grow"
+                onClick={() => signMessage()}
+                disabled={isSigning}
+              >
+                {isSigning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Sign
+              </Button>
+            </div>
+          ) : (
+            <Button className="mt-4" onClick={() => connect()}>
+              Connect Wallet
             </Button>
-            <Button
-              className="grow"
-              disabled={!signature || isVerifying || isVerifyingLoading}
-              onClick={() => {
-                setConfirmedValue(inputValue);
-                refetch();
-              }}
-            >
-              {(isVerifying || isVerifyingLoading) && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )}
+        </div>
+        <div className="mt-8 p-8 flex flex-col gap-y-2 border rounded w-[400px]">
+          <h2 className="text-lg font-bold">Validate Signature</h2>
+          <Label className="font-bold mt-4">Message</Label>
+          <Input
+            placeholder="Enter message"
+            value={messageForVerification}
+            onChange={(e) => setMessageForVerification(e.target.value)}
+          />
+          <Label htmlFor="signature" className="font-bold mt-4">
+            Validate Signature
+          </Label>
+          <Input
+            placeholder="Enter signature"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          {
+            <p>
+              {isVerifying || isVerifyingLoading ? (
+                "Verifying..."
+              ) : isValidSignature === undefined ? null : isValidSignature ===
+                "0x1626ba7e" ? (
+                <p>
+                  Is valid singature:
+                  <span className="ml-2 text-green-500">True</span>
+                </p>
+              ) : (
+                <p>
+                  Is valid singature:
+                  <span className="ml-2 text-red-500">False</span>
+                </p>
               )}
-              Verify
-            </Button>
-          </div>
-        ) : (
-          <Button className="mt-4" onClick={() => connect()}>
-            Connect Wallet
-          </Button>
-        )}
+            </p>
+          }
+        </div>
       </div>
     </main>
   ) : null;
