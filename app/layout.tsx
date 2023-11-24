@@ -3,12 +3,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
-import { optimismGoerli } from "viem/chains";
+import { optimismGoerli, baseGoerli, polygonMumbai } from "viem/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { CyberWalletConnector } from "@cyberlab/cyber-app-sdk";
-const chainlist = [optimismGoerli];
+const chainlist = [optimismGoerli, baseGoerli, polygonMumbai];
 
 const connector = new CyberWalletConnector({
+  // @ts-ignore
   chains: chainlist,
   options: {
     name: "Sign Message Demo", // required

@@ -10,11 +10,25 @@ import {
   useConnect,
   useSendTransaction,
   useContractRead,
+  useSwitchNetwork,
+  useNetwork,
 } from "wagmi";
 import { parseUnits, hashMessage } from "viem";
 import { ERC1271ABI } from "@/lib/ERC1271";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Home() {
+  const { chain } = useNetwork();
+  const { chains, error, isLoading, pendingChainId, switchNetwork } =
+    useSwitchNetwork();
   const [mounted, setMounted] = useState(false);
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
@@ -58,15 +72,36 @@ export default function Home() {
     },
   });
 
-  console.log({ isValidSignature });
-
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const handleSelect = (id: string) => {
+    switchNetwork?.(Number(id));
+  };
+
   return mounted ? (
     <main className="flex min-h-screen flex-col items-center border pt-16">
       <h1 className="text-xl font-bold">CyberAccount Sign Message Demo</h1>
+      <div className="mt-8 w-[920px]">
+        <div className="w-[200px]">
+          <Label className="font-bold">Network</Label>
+          <Select value={String(chain?.id)} onValueChange={handleSelect}>
+            <SelectTrigger>
+              <SelectValue placeholder="Switch network" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {chains.map((chain) => (
+                  <SelectItem key={chain.id} value={String(chain.id)}>
+                    {chain.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
       <div className="flex gap-x-4">
         <div className="mt-8 p-8 flex flex-col gap-y-2 border rounded w-[500px]">
           <h2 className="text-lg font-bold">Sign Message</h2>
