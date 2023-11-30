@@ -3,10 +3,30 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
-import { optimismGoerli, baseGoerli, polygonMumbai } from "viem/chains";
+import {
+  optimismGoerli,
+  baseGoerli,
+  polygonMumbai,
+  manta,
+  scrollTestnet,
+  scrollSepolia,
+  mantle,
+} from "viem/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { CyberWalletConnector } from "@cyberlab/cyber-app-sdk";
-const chainlist = [optimismGoerli, baseGoerli, polygonMumbai];
+import {
+  CyberWalletConnector,
+  isChainUnsupported,
+} from "@cyberlab/cyber-app-sdk";
+const chainlist = [
+  mantle,
+  manta,
+  optimismGoerli,
+  baseGoerli,
+  polygonMumbai,
+  scrollTestnet,
+  scrollSepolia,
+  mainnet,
+];
 
 const connector = new CyberWalletConnector({
   // @ts-ignore
