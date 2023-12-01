@@ -4,6 +4,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
 import {
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+  metaMaskWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import {
   optimismGoerli,
   baseGoerli,
   polygonMumbai,
@@ -13,10 +19,21 @@ import {
   mantle,
 } from "viem/chains";
 import { publicProvider } from "wagmi/providers/public";
+import "@rainbow-me/rainbowkit/styles.css";
 import {
-  CyberWalletConnector,
-  isChainUnsupported,
-} from "@cyberlab/cyber-app-sdk";
+  connectorsForWallets,
+  getDefaultWallets,
+  RainbowKitProvider,
+  Chain,
+  Wallet,
+} from "@rainbow-me/rainbowkit";
+export interface CyberWalletOptions {
+  projectId: string;
+  chains: Chain[];
+}
+
+import { CyberProvider, CyberWalletConnector } from "@cyberlab/cyber-app-sdk";
+
 const chainlist = [
   mantle,
   manta,
@@ -29,7 +46,6 @@ const chainlist = [
 ];
 
 const connector = new CyberWalletConnector({
-  // @ts-ignore
   chains: chainlist,
   options: {
     name: "Sign Message Demo", // required
@@ -38,18 +54,44 @@ const connector = new CyberWalletConnector({
   },
 });
 
+export const cyberWallet = (): Wallet => ({
+  id: "cyber-wallet",
+  name: "CyberWallet",
+  iconUrl:
+    "https://wallet-sandbox.cyber.co/_next/image?url=%2Fassets%2Flogos%2Flogo.png&w=64&q=100",
+  iconBackground: "#fff",
+  createConnector: () => {
+    return {
+      connector,
+    };
+  },
+});
+
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   chainlist,
   [publicProvider()]
 );
 
-const config = createConfig({
-  //@ts-ignore
-  connectors: [connector],
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [metaMaskWallet({ chains, projectId: "" }), cyberWallet()],
+  },
+]);
+
+const wagmiConfig = createConfig({
   autoConnect: true,
+  connectors,
   publicClient,
-  webSocketPublicClient,
 });
+
+// const config = createConfig({
+//   //@ts-ignore
+//   connectors: [connector],
+//   autoConnect: true,
+//   publicClient,
+//   webSocketPublicClient,
+// });
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -61,7 +103,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <WagmiConfig config={config}>{children}</WagmiConfig>
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+        </WagmiConfig>
       </body>
     </html>
   );

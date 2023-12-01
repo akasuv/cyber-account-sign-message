@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Home() {
   const { chain } = useNetwork();
@@ -84,11 +85,12 @@ export default function Home() {
   };
 
   const handleSign = async () => {
+    if (!chain) return;
     // All properties on a domain are optional
     const domain = {
       name: "Ether Mail",
       version: "1",
-      chainId: 1,
+      chainId: chain.id,
       verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
     } as const;
 
@@ -132,7 +134,10 @@ export default function Home() {
   return mounted ? (
     <main className="flex min-h-screen flex-col items-center border pt-16">
       <h1 className="text-xl font-bold">CyberAccount Sign Message Demo</h1>
-      <div className="mt-8 w-[920px]">
+      <div className="p-8">
+        <ConnectButton />
+      </div>
+      {/* <div className="mt-8 w-[920px]">
         <div className="w-[200px]">
           <Label className="font-bold">Network</Label>
           <Select value={String(chain?.id)} onValueChange={handleSelect}>
@@ -150,11 +155,11 @@ export default function Home() {
             </SelectContent>
           </Select>
         </div>
-      </div>
+      </div> */}
       <div className="flex gap-x-4">
         <div className="mt-8 p-8 flex flex-col gap-y-2 border rounded w-[500px]">
           <h2 className="text-lg font-bold">Sign Message</h2>
-          <Label className="font-bold mt-4">CyberAccount address</Label>
+          <Label className="font-bold mt-4">Address</Label>
           <p>{address}</p>
           <Label className="font-bold mt-4">Message</Label>
           <Input
@@ -162,9 +167,7 @@ export default function Home() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <Label htmlFor="signature" className="font-bold mt-4">
-            Signature
-          </Label>
+          <Label htmlFor="signature" className="font-bold mt-4"></Label>
           {signature ? (
             <p className="break-words">{signature}</p>
           ) : (
@@ -181,11 +184,7 @@ export default function Home() {
                 Sign
               </Button>
             </div>
-          ) : (
-            <Button className="mt-4" onClick={() => connect()}>
-              Connect Wallet
-            </Button>
-          )}
+          ) : null}
         </div>
         <div className="mt-8 p-8 flex flex-col gap-y-2 border rounded w-[400px]">
           <h2 className="text-lg font-bold">Validate Signature</h2>
