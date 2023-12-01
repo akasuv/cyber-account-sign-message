@@ -20,7 +20,7 @@ import {
   Chain,
   Wallet,
 } from "@rainbow-me/rainbowkit";
-export interface CyberWalletOptions {
+interface CyberWalletOptions {
   projectId: string;
   chains: Chain[];
 }
@@ -47,7 +47,7 @@ const connector = new CyberWalletConnector({
   },
 });
 
-export const cyberWallet = (): Wallet => ({
+const cyberWallet = (): Wallet => ({
   id: "cyber-wallet",
   name: "CyberWallet",
   iconUrl:
