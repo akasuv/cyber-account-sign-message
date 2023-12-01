@@ -16,15 +16,6 @@ import {
 } from "wagmi";
 import { parseUnits, hashMessage } from "viem";
 import { ERC1271ABI } from "@/lib/ERC1271";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Home() {
@@ -137,25 +128,6 @@ export default function Home() {
       <div className="p-8">
         <ConnectButton />
       </div>
-      {/* <div className="mt-8 w-[920px]">
-        <div className="w-[200px]">
-          <Label className="font-bold">Network</Label>
-          <Select value={String(chain?.id)} onValueChange={handleSelect}>
-            <SelectTrigger>
-              <SelectValue placeholder="Switch network" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {chains.map((chain) => (
-                  <SelectItem key={chain.id} value={String(chain.id)}>
-                    {chain.name}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-      </div> */}
       <div className="flex gap-x-4">
         <div className="mt-8 p-8 flex flex-col gap-y-2 border rounded w-[500px]">
           <h2 className="text-lg font-bold">Sign Message</h2>

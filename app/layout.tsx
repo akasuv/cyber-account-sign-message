@@ -1,14 +1,8 @@
 "use client";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
-import {
-  injectedWallet,
-  rainbowWallet,
-  walletConnectWallet,
-  metaMaskWallet,
-} from "@rainbow-me/rainbowkit/wallets";
+import { metaMaskWallet } from "@rainbow-me/rainbowkit/wallets";
 import {
   optimismGoerli,
   baseGoerli,
@@ -22,7 +16,6 @@ import { publicProvider } from "wagmi/providers/public";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   connectorsForWallets,
-  getDefaultWallets,
   RainbowKitProvider,
   Chain,
   Wallet,
@@ -32,7 +25,7 @@ export interface CyberWalletOptions {
   chains: Chain[];
 }
 
-import { CyberProvider, CyberWalletConnector } from "@cyberlab/cyber-app-sdk";
+import { CyberWalletConnector } from "@cyberlab/cyber-app-sdk";
 
 const chainlist = [
   mantle,
@@ -67,10 +60,7 @@ export const cyberWallet = (): Wallet => ({
   },
 });
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  chainlist,
-  [publicProvider()]
-);
+const { chains, publicClient } = configureChains(chainlist, [publicProvider()]);
 
 const connectors = connectorsForWallets([
   {
@@ -84,14 +74,6 @@ const wagmiConfig = createConfig({
   connectors,
   publicClient,
 });
-
-// const config = createConfig({
-//   //@ts-ignore
-//   connectors: [connector],
-//   autoConnect: true,
-//   publicClient,
-//   webSocketPublicClient,
-// });
 
 const inter = Inter({ subsets: ["latin"] });
 
