@@ -65,7 +65,10 @@ const { chains, publicClient } = configureChains(chainlist, [publicProvider()]);
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
-    wallets: [metaMaskWallet({ chains, projectId: "" }), cyberWallet()],
+    wallets: [
+      metaMaskWallet({ chains, projectId: "634507df6613fe0e35d6569cda68d663" }),
+      cyberWallet(),
+    ],
   },
 ]);
 
