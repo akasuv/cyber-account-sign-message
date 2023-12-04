@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@binance/w3w-wagmi-connector": "^1.0.0",
-    "@cyberlab/cyber-app-sdk": "^2.3.3",
+    "@cyberlab/cyber-app-sdk": "^2.4.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",

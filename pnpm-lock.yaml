@@ -5,8 +5,8 @@ dependencies:
     specifier: ^1.0.0
     version: 1.0.0(@wagmi/core@1.4.7)(react-dom@18.0.0)(react@18.0.0)(viem@1.19.11)
   '@cyberlab/cyber-app-sdk':
-    specifier: ^2.3.3
-    version: 2.3.3(@types/node@20.0.0)(@types/react@18.0.0)(react-dom@18.0.0)(react@18.0.0)(typescript@5.0.2)
+    specifier: ^2.4.0
+    version: 2.4.0(@types/node@20.0.0)(@types/react@18.0.0)(react-dom@18.0.0)(react@18.0.0)(typescript@5.0.2)
   '@radix-ui/react-label':
     specifier: ^2.0.2
     version: 2.0.2(@types/react-dom@18.0.0)(@types/react@18.0.0)(react-dom@18.0.0)(react@18.0.0)
@@ -263,8 +263,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
-  /@cyberlab/cyber-app-sdk@2.3.3(@types/node@20.0.0)(@types/react@18.0.0)(react-dom@18.0.0)(react@18.0.0)(typescript@5.0.2):
-    resolution: {integrity: sha512-mZCdmKEBzPXZmQBzIscOao7uFXMwvprJZpHHC1E3wkzhxvJScR6Er3nInP0Ytq0nGcc8ZYK3p2uTZEOhcnVW6g==}
+  /@cyberlab/cyber-app-sdk@2.4.0(@types/node@20.0.0)(@types/react@18.0.0)(react-dom@18.0.0)(react@18.0.0)(typescript@5.0.2):
+    resolution: {integrity: sha512-I9LzwPeEgvV5GNvk6Dtp1ZAf8ip38rWq/OUDJhB0qUWV1JLQi89Uy57NqR9H2r3atXPEzFb+gJv8GwBeVM2u8g==}
     dependencies:
       '@wagmi/connectors': 3.1.5(@types/react@18.0.0)(react@18.0.0)(typescript@5.0.2)(viem@1.19.11)
       ts-node: 10.9.1(@types/node@20.0.0)(typescript@5.0.2)

@@ -17,6 +17,7 @@ import {
 import { parseUnits, hashMessage } from "viem";
 import { ERC1271ABI } from "@/lib/ERC1271";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { getSignerAddress } from "@cyberlab/cyber-app-sdk";
 
 export default function Home() {
   const { chain } = useNetwork();
@@ -127,6 +128,7 @@ export default function Home() {
       <h1 className="text-xl font-bold">CyberAccount Sign Message Demo</h1>
       <div className="p-8">
         <ConnectButton />
+        <p className="py-4">Signer: {getSignerAddress()}</p>
       </div>
       <div className="flex gap-x-4">
         <div className="mt-8 p-8 flex flex-col gap-y-2 border rounded w-[500px]">
