@@ -76,53 +76,6 @@ export default function Home() {
     switchNetwork?.(Number(id));
   };
 
-  const handleSign = async () => {
-    if (!chain) return;
-    // All properties on a domain are optional
-    const domain = {
-      name: "Ether Mail",
-      version: "1",
-      chainId: chain.id,
-      verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
-    } as const;
-
-    // The named list of all type definitions
-    const types = {
-      Person: [
-        { name: "name", type: "string" },
-        { name: "wallet", type: "address" },
-      ],
-      Mail: [
-        { name: "from", type: "Person" },
-        { name: "to", type: "Person" },
-        { name: "contents", type: "string" },
-      ],
-    } as const;
-
-    const message = {
-      from: {
-        name: "Cow",
-        wallet: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
-      },
-      to: {
-        name: "Bob",
-        wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
-      },
-      contents: "Hello, Bob!",
-    } as const;
-
-    const primaryType = "Mail";
-
-    const signature = await signTypedDataAsync({
-      domain,
-      types,
-      primaryType,
-      message,
-    });
-
-    console.log({ signature });
-  };
-
   return mounted ? (
     <main className="flex min-h-screen flex-col items-center border pt-16">
       <h1 className="text-xl font-bold">CyberAccount Sign Message Demo</h1>
@@ -151,7 +104,7 @@ export default function Home() {
             <div className="flex gap-x-4 w-full mt-4">
               <Button
                 className="grow"
-                onClick={() => handleSign()}
+                onClick={() => signMessage?.()}
                 disabled={isSigning}
               >
                 {isSigning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
